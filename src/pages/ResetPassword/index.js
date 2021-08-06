@@ -1,7 +1,10 @@
 import React from "react"
+import useUnprotectPage from "../../hooks/useUnprotectPage"
 
 
 export const ResetPassword = () => {
+
+    useUnprotectPage()
 
     return (
         <div>
