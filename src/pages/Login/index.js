@@ -47,7 +47,7 @@ export const Login = () => {
 
             <div>
                 <input placeholder="Email" name="email" value={form.email} onChange={onChange}/>
-                <input placeholder="Senha" name="password" value={form.password} onChange={onChange}/>
+                <input placeholder="Senha" name="password" value={form.password} onChange={onChange} type="password"/>
                 <button onClick={login}>Entrar</button>
             </div>
 
