@@ -28,6 +28,8 @@ export const ForgotPassword = () => {
 
             await axios.post(`${baseURL}/users/password/forgot`, form)
 
+            window.localStorage.setItem("resetPasswordEmail", form.email)
+
             goToResetPassword(history)
         }
         catch (error) {
