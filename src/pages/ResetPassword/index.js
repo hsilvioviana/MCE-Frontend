@@ -16,9 +16,9 @@ export const ResetPassword = () => {
 
     const history = useHistory()
 
-    const loginForm = { email, code: "", newPassword: "" }
+    const resetForm = { email, code: "", newPassword: "" }
 
-    const [form, setForm] = useState(loginForm)
+    const [form, setForm] = useState(resetForm)
 
     const onChange = (event) => {
 
