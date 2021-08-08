@@ -18,15 +18,18 @@ export const Schedule = () => {
 
     const [form, setForm] = useState(scheduleForm)
     const [checkBoxs, setCheckBoxs] = useState([])
+    const [alreadyChecked, setAlreadyChecked] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
+    const weeks = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+
+    useEffect( async () => {
 
         configureCheckBoxs()
+        await getActualSchedule()
     }, [])
 
     const configureCheckBoxs = () => {
-
-        const weeks = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
 
         const boxs = []
 
@@ -97,6 +100,55 @@ export const Schedule = () => {
         }
     }
 
+    const getActualSchedule = async () => {
+
+        try {
+
+            const providerId = localStorage.getItem("id")
+
+            const response = await axios.get(`${baseURL}/appointments/schedule/${providerId}`)
+
+            const schedule = response.data.schedule
+
+            const checked = []
+
+            for (let week of weeks) {
+
+                let key
+
+                if (week === "Domingo") { key = "sunday" }
+                else if (week === "Segunda") { key = "monday" }
+                else if (week === "Terça") { key = "tuesday" }
+                else if (week === "Quarta") { key = "wednesday" }
+                else if (week === "Quinta") { key = "thursday" }
+                else if (week === "Sexta") { key = "friday" }
+                else if (week === "Sábado") { key = "saturday" }
+
+                if (schedule[key].length === 0) {
+
+                    continue
+                }
+
+                for (let item of schedule[key].split(" ")) {
+
+                    const hour = week + "|" + (item < 10 ? "0" + item : item)
+
+                    alterSchedule(hour)
+
+                    checked.push(hour)
+                }
+            }
+
+            setAlreadyChecked(checked)
+
+            setLoading(false)
+        }
+        catch (error) {
+
+            window.alert(error.response.data.error)
+        }
+    }
+
     return (
         <div>
             <h1>Schedule</h1>
@@ -105,7 +157,9 @@ export const Schedule = () => {
 
             <button onClick={setSchedule}>Editar Cronograma</button>
 
-            {checkBoxs.map(week => {
+            {loading && <h3>Carregando...</h3>}
+
+            {!loading && checkBoxs.map(week => {
 
                 return (
                     <div>
@@ -115,7 +169,7 @@ export const Schedule = () => {
                         return (
                             <div>
                                 <label for={hour}>{`${hour.split("|")[1]}:00`}</label>
-                                <input type="checkbox" id={hour} onClick={() => alterSchedule(hour)} value="true"/>
+                                <input type="checkbox" defaultChecked={alreadyChecked.includes(hour)} id={hour} onClick={() => alterSchedule(hour)} value="true"/>
                             </div>
                         )
                     })}
