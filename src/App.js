@@ -6,6 +6,7 @@ import { ForgotPassword } from "./pages/ForgotPassword"
 import { ResetPassword } from "./pages/ResetPassword"
 import { Home } from "./pages/Home"
 import { Profile } from "./pages/Profile"
+import { Schedule } from "./pages/Schedule"
 
 
 function App() {
@@ -37,6 +38,14 @@ function App() {
 
         <Route exact path="/profile">
           <Profile/>
+        </Route>
+
+        <Route exact path="/schedule">
+          <Schedule/>
+        </Route>
+
+        <Route>
+          <h1>Error 404 - Página não encontrada </h1>
         </Route>
 
       </Switch>

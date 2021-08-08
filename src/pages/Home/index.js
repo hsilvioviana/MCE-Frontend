@@ -2,7 +2,7 @@ import { format, subDays } from "date-fns"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
-import { goToLogout, goToProfile } from "../../routes/coordinator"
+import { goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { pt } from "date-fns/locale"
 import axios from "axios"
 import { baseURL } from "../../parameters"
@@ -95,7 +95,7 @@ export const Home = () => {
 
             <button onClick={() => goToLogout(history)}>Logout</button>
             <button onClick={() => goToProfile(history)}>Perfil</button>
-
+            <button onClick={() => goToSchedule(history)}>Cronograma</button>
             <br/>
 
             <button onClick={() => setDay(subDays(day, 1))}>{"<=="}</button>
