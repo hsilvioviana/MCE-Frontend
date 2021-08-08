@@ -28,6 +28,11 @@ export const goToProfile = (history) => {
     history.push("/profile")
 }
 
+export const goToSchedule = (history) => {
+
+    history.push("/schedule")
+}
+
 export const goToLogout = (history) => {
 
     localStorage.clear()
