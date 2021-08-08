@@ -4,6 +4,7 @@ import axios from "axios"
 import { baseURL } from "../../parameters"
 import { goToForgotPassword, goToHome, goToSignup } from "../../routes/coordinator"
 import useUnprotectPage from "../../hooks/useUnprotectPage"
+import jwt_decode from "jwt-decode"
 
 
 export const Login = () => {
@@ -28,12 +29,21 @@ export const Login = () => {
 
             const response = await axios.post(`${baseURL}/users/login`, form)
 
-            window.localStorage.setItem("token", response.data.token)
-            window.localStorage.setItem("id", response.data.user.id)
-            window.localStorage.setItem("nickname", response.data.user.nickname)
-            window.localStorage.setItem("email", response.data.user.email)
+            const role = jwt_decode(response.data.token).role
 
-            goToHome(history)
+            if (role === "PERSONAL") {
+
+                window.localStorage.setItem("token", response.data.token)
+                window.localStorage.setItem("id", response.data.user.id)
+                window.localStorage.setItem("nickname", response.data.user.nickname)
+                window.localStorage.setItem("email", response.data.user.email)
+    
+                goToHome(history)
+            }
+            else {
+
+                window.alert("Apenas personais podem acessar o site")
+            }
         }
         catch (error) {
 

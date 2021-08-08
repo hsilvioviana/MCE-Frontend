@@ -67,6 +67,27 @@ export const Home = () => {
         }
     }
 
+    const cancelAppointment = async (id) => {
+
+        try {
+
+            if (window.confirm("Você tem certeza que quer cancelar essa aula?")) {
+
+                const headers = { headers: { Authorization: token } }
+
+                const response = await axios.delete(`${baseURL}/appointments/cancel/${id}`, headers)
+    
+                window.alert(response.data.message)
+
+                await getAppointments()
+            }
+        }
+        catch (error) {
+
+            window.alert(error.response.data.error)
+        }
+    }
+
     return (
         <div>
 
@@ -101,7 +122,8 @@ export const Home = () => {
                     
                         <div>
                             <p style={{ display: "inline" }}>{appointment.hour} </p>
-                            <p style={{ display: "inline" }}>{appointment.content.user.nickname}</p>
+                            <p style={{ display: "inline" }}>{appointment.content.user.nickname} </p>
+                            {appointment.content.cancelable && <button onClick={() => cancelAppointment(appointment.content.id)}>Cancelar</button>}
                         </div>
                     )
                 }
