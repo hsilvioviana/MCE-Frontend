@@ -4,6 +4,11 @@ import { useHistory } from "react-router-dom"
 import useUnprotectPage from "../../hooks/useUnprotectPage"
 import { goToLogin, goToResetPassword } from "../../routes/coordinator"
 import { baseURL } from "../../parameters"
+import { Body, Container, Coordinator } from "./styles"
+import { Image } from "../../components/Image/styles"
+import logo from "../../assets/images/logo.png"
+import Button from "../../components/Button"
+import Input from "../../components/Input"
 
 
 export const ForgotPassword = () => {
@@ -39,15 +44,19 @@ export const ForgotPassword = () => {
     }
 
     return (
-        <div>
-            <h1>ForgotPassword</h1>
+        <Container>
+            <Body>
 
-            <div>
-                <input placeholder="Email" name="email" value={form.email} onChange={onChange}/>
-                <button onClick={forgotPassword}>Enviar Código</button>
-            </div>
+            <Image src={logo}/>
 
-            <button onClick={() => goToLogin(history)}>Voltar para Login</button>
-        </div>
+            <h2>Por favor, digite seu email para que possamos enviar um código para redefinir sua senha.</h2>
+
+            <Input><input placeholder="Email" name="email" value={form.email} onChange={onChange}/></Input>
+            <Button onClick={forgotPassword}>Enviar Código</Button>
+
+            <strong onClick={() => goToLogin(history)}><Coordinator>Voltar para Login</Coordinator></strong>
+
+            </Body>
+        </Container>
     )
 }
