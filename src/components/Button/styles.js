@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import colors from "../../styles/colors"
 import fonts from "../../styles/fonts"
-import { shade  }from "polished"
+import { shade }from "polished"
 
 
 const { orange, white } = colors

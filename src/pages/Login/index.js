@@ -5,6 +5,11 @@ import { baseURL } from "../../parameters"
 import { goToForgotPassword, goToHome, goToSignup } from "../../routes/coordinator"
 import useUnprotectPage from "../../hooks/useUnprotectPage"
 import jwt_decode from "jwt-decode"
+import { Body, Container, Coordinator, ForgotPassword } from "./styles"
+import Button from "../../components/Button"
+import Input from "../../components/Input"
+import { Image } from "../../components/Image/styles"
+import logo from "../../assets/images/logo.png"
 
 
 export const Login = () => {
@@ -52,17 +57,21 @@ export const Login = () => {
     }
 
     return (
-        <div>
-            <h1>Login</h1>
+        <Container>
+            <Body>
 
-            <div>
-                <input placeholder="Email" name="email" value={form.email} onChange={onChange}/>
-                <input placeholder="Senha" name="password" value={form.password} onChange={onChange} type="password"/>
-                <button onClick={login}>Entrar</button>
-            </div>
+                <Image src={logo}/>
 
-            <button onClick={() => goToSignup(history)}>Cadastro</button>
-            <button onClick={() => goToForgotPassword(history)}>Esqueci a Senha</button>
-        </div>
+                <Input><input placeholder="Email" name="email" value={form.email} onChange={onChange}/></Input>
+                <Input><input placeholder="Senha" name="password" value={form.password} onChange={onChange} type="password"/></Input>
+                
+                <ForgotPassword><p onClick={() => goToForgotPassword(history)}>Esqueci minha Senha</p></ForgotPassword>
+                
+                <Button onClick={login}>Login</Button>
+
+                <p>Não tem conta? <strong onClick={() => goToSignup(history)}><Coordinator>Registrar</Coordinator></strong></p>
+
+            </Body>
+        </Container>
     )
 }
