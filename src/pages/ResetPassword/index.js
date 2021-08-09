@@ -4,6 +4,12 @@ import { useHistory } from "react-router-dom"
 import useUnprotectPage from "../../hooks/useUnprotectPage"
 import { baseURL } from "../../parameters"
 import { goToHome, goToLogin, goToForgotPassword } from "../../routes/coordinator"
+import { Body, Container, Coordinator } from "./styles"
+import { Image } from "../../components/Image/styles"
+import logo from "../../assets/images/logo.png"
+import Button from "../../components/Button"
+import Input from "../../components/Input"
+import jwt_decode from "jwt-decode"
 
 
 export const ResetPassword = () => {
@@ -32,14 +38,25 @@ export const ResetPassword = () => {
 
             const response = await axios.post(`${baseURL}/users/password/reset`, form)
 
-            window.localStorage.setItem("token", response.data.token)
-            window.localStorage.setItem("id", response.data.user.id)
-            window.localStorage.setItem("nickname", response.data.user.nickname)
-            window.localStorage.setItem("email", response.data.user.email)
+            const role = jwt_decode(response.data.token).role
 
-            window.localStorage.removeItem("resetPasswordEmail")
+            if (role === "PERSONAL") {
 
-            goToHome(history)
+                window.localStorage.setItem("token", response.data.token)
+                window.localStorage.setItem("id", response.data.user.id)
+                window.localStorage.setItem("nickname", response.data.user.nickname)
+                window.localStorage.setItem("email", response.data.user.email)
+
+                window.localStorage.removeItem("resetPasswordEmail")
+
+                goToHome(history)
+            }
+            else {
+
+                window.alert("Apenas personais podem acessar o site")
+
+                goToLogin(history)
+            }
         }
         catch (error) {
 
@@ -48,19 +65,21 @@ export const ResetPassword = () => {
     }
 
     return (
-        <div>
+        <Container>
+            <Body>
 
-            <h1>ResetPassword</h1>
-            <h2>Digite o código enviado para {email} e sua nova senha</h2>
+            <Image src={logo}/>
 
-            <div>
-                <input placeholder="Código" name="code" value={form.code} onChange={onChange}/>
-                <input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange}/>
-                <button onClick={resetPassword}>Resetar Senha</button>
-            </div>
+            <h2>Digite o código enviado à {email} e sua nova senha</h2>
 
-            <button onClick={() => goToLogin(history)}>Voltar para Login</button>
+            <Input><input placeholder="Código" name="code" value={form.code} onChange={onChange}/></Input>
+            <Input><input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange} type="password"/></Input>
 
-        </div>
+            <Button onClick={resetPassword}>Redefinir Senha</Button>
+
+            <strong onClick={() => goToLogin(history)}><Coordinator>Voltar para Login</Coordinator></strong>
+
+            </Body>
+        </Container>
     )
 }
