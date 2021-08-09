@@ -4,6 +4,12 @@ import axios from "axios"
 import { baseURL } from "../../parameters"
 import { goToHome, goToLogin } from "../../routes/coordinator"
 import useUnprotectPage from "../../hooks/useUnprotectPage"
+import { Body, Container, Coordinator} from "./styles"
+import Button from "../../components/Button"
+import Input from "../../components/Input"
+import { Image } from "../../components/Image/styles"
+import logo from "../../assets/images/logo.png"
+
 
 
 export const Signup = () => {
@@ -49,19 +55,22 @@ export const Signup = () => {
     }
 
     return (
-        <div>
-            <h1>Signup</h1>
+        <Container>
+            <Body>
 
-            <div>
-                <input placeholder="Apelido" name="nickname" value={form.nickname} onChange={onChange}/>
-                <input placeholder="Email" name="email" value={form.email} onChange={onChange} type="email"/>
-                <input placeholder="Telefone" name="phone" value={form.phone} onChange={onChange} type="phone"/>
-                <input placeholder="Senha" name="password" value={form.password} onChange={onChange} type="password"/>
-                <input placeholder="Confirmar Senha" name="confirmPassword" value={form.confirmPassword} onChange={onChange} type="password"/>
-                <button onClick={signup}>Cadastrar</button>
-            </div>
 
-            <button onClick={() => goToLogin(history)}>Voltar para Login</button>
-        </div>
+            <Image src={logo}/>
+
+            <Input><input placeholder="Apelido" name="nickname" value={form.nickname} onChange={onChange}/></Input>
+            <Input><input placeholder="Email" name="email" value={form.email} onChange={onChange} type="email"/></Input>
+            <Input><input placeholder="Telefone" name="phone" value={form.phone} onChange={onChange} type="phone"/></Input>
+            <Input><input placeholder="Senha" name="password" value={form.password} onChange={onChange} type="password"/></Input>
+            <Input><input placeholder="Confirmar Senha" name="confirmPassword" value={form.confirmPassword} onChange={onChange} type="password"/></Input>
+            <Button onClick={signup}>Cadastrar</Button>
+
+            <strong onClick={() => goToLogin(history)}><Coordinator>Voltar para Login</Coordinator></strong>
+            
+            </Body>
+        </Container>
     )
 }
