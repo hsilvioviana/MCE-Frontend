@@ -2,7 +2,7 @@ import { format, subDays } from "date-fns"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
-import { goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { goToLogin, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { pt } from "date-fns/locale"
 import axios from "axios"
 import { baseURL } from "../../parameters"
@@ -34,37 +34,40 @@ export const Home = () => {
 
         try {
 
-            setLoading(true)
+            if (token) {
 
-            const headers = { headers: { Authorization: token } }
+                setLoading(true)
 
-            const dayFormated = `${day.toISOString().substring(0, 11)}00:00:00-03:00`
+                const headers = { headers: { Authorization: token } }
 
-            const response = await axios.get(`${baseURL}/appointments/${dayFormated}`, headers)
+                const dayFormated = `${day.toISOString().substring(0, 11)}00:00:00-03:00`
 
-            const newAppointments = []
+                const response = await axios.get(`${baseURL}/appointments/${dayFormated}`, headers)
 
-            for (let i = 0; i < 24; i++) { 
+                const newAppointments = []
 
-                const item = {
+                for (let i = 0; i < 24; i++) { 
 
-                    hour:  i < 10? "0" + i + "h" : i + "h",
-                    content: undefined
+                    const item = {
+
+                        hour:  i < 10? "0" + i + "h" : i + "h",
+                        content: undefined
+                    }
+
+                    newAppointments.push(item)
                 }
 
-                newAppointments.push(item)
+                for (let item of response.data.appointments) {
+
+                    const index = (new Date(item.date)).getHours()
+
+                    newAppointments[index].content = item
+                }
+
+                setAppointments(newAppointments)
+
+                setLoading(false)
             }
-
-            for (let item of response.data.appointments) {
-
-                const index = (new Date(item.date)).getHours()
-
-                newAppointments[index].content = item
-            }
-
-            setAppointments(newAppointments)
-
-            setLoading(false)
         }
         catch (error) {
 
