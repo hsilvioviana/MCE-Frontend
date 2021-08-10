@@ -2,10 +2,15 @@ import { format, subDays } from "date-fns"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
-import { goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { goToLogin, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { pt } from "date-fns/locale"
 import axios from "axios"
 import { baseURL } from "../../parameters"
+import { Appointments, Body, Container, SwitchDayContainer, User } from "./styles"
+import Button from "../../components/Button"
+import leftArrow from "../../assets/images/leftArrow.png"
+import rightArrow from "../../assets/images/rightArrow.png"
+import loadingGif from "../../assets/images/loading.gif"
 
 
 export const Home = () => {
@@ -29,37 +34,40 @@ export const Home = () => {
 
         try {
 
-            setLoading(true)
+            if (token) {
 
-            const headers = { headers: { Authorization: token } }
+                setLoading(true)
 
-            const dayFormated = `${day.toISOString().substring(0, 11)}00:00:00-03:00`
+                const headers = { headers: { Authorization: token } }
 
-            const response = await axios.get(`${baseURL}/appointments/${dayFormated}`, headers)
+                const dayFormated = `${day.toISOString().substring(0, 11)}00:00:00-03:00`
 
-            const newAppointments = []
+                const response = await axios.get(`${baseURL}/appointments/${dayFormated}`, headers)
 
-            for (let i = 0; i < 24; i++) { 
+                const newAppointments = []
 
-                const item = {
+                for (let i = 0; i < 24; i++) { 
 
-                    hour:  i < 10? "0" + i + ":00" : i + ":00",
-                    content: undefined
+                    const item = {
+
+                        hour:  i < 10? "0" + i + "h" : i + "h",
+                        content: undefined
+                    }
+
+                    newAppointments.push(item)
                 }
 
-                newAppointments.push(item)
+                for (let item of response.data.appointments) {
+
+                    const index = (new Date(item.date)).getHours()
+
+                    newAppointments[index].content = item
+                }
+
+                setAppointments(newAppointments)
+
+                setLoading(false)
             }
-
-            for (let item of response.data.appointments) {
-
-                const index = (new Date(item.date)).getHours()
-
-                newAppointments[index].content = item
-            }
-
-            setAppointments(newAppointments)
-
-            setLoading(false)
         }
         catch (error) {
 
@@ -89,46 +97,55 @@ export const Home = () => {
     }
 
     return (
-        <div>
-
-            <h1>Home</h1>
+        <Container>
 
             <button onClick={() => goToLogout(history)}>Logout</button>
             <button onClick={() => goToProfile(history)}>Perfil</button>
             <button onClick={() => goToSchedule(history)}>Cronograma</button>
-            <br/>
 
-            <button onClick={() => setDay(subDays(day, 1))}>{"<=="}</button>
-            <h1 style={{ display: "inline" }}><strong> {format(day, "dd 'de' MMMM", {locale: pt})} </strong></h1>
-            <button onClick={() => setDay(subDays(day, -1))}>{"==>"}</button>
+            <Body>
 
-            {loading && <h3>Carregando...</h3>}
+                <SwitchDayContainer>
+                    <img onClick={() => setDay(subDays(day, 1))} src={leftArrow}/>
+                    <h3><strong>{format(day, "dd 'de' MMMM", {locale: pt})}</strong></h3>
+                    <img onClick={() => setDay(subDays(day, -1))} src={rightArrow}/>
+                </SwitchDayContainer>
 
-            {!loading && appointments.map(appointment => {
+                {loading && <img src={loadingGif}/>}
 
-                if (!appointment.content) {
+                <Appointments>
+                    {!loading && appointments.map(appointment => {
 
-                    return (
+                        if (!appointment.content) {
 
-                        <div>
-                            <p style={{ display: "inline" }}>{appointment.hour} </p>
-                            <p style={{ display: "inline" }}>=========</p>
-                        </div>
-                    )
-                }
-                else {
+                            return (
 
-                    return (
-                    
-                        <div>
-                            <p style={{ display: "inline" }}>{appointment.hour} </p>
-                            <p style={{ display: "inline" }}>{appointment.content.user.nickname} </p>
-                            {appointment.content.cancelable && <button onClick={() => cancelAppointment(appointment.content.id)}>Cancelar</button>}
-                        </div>
-                    )
-                }
-            })}
-            
-        </div>
+                                <div>
+                                    <section>
+                                    <p>{appointment.hour}</p>
+                                    </section>
+                                    <h3>O</h3>
+                                </div>
+                            )
+                        }
+                        else {
+
+                            return (
+                            
+                                <div>
+                                    <section>
+                                    <p>{appointment.hour}</p>
+                                    </section>
+                                    <h3>O</h3>
+                                    <User>{appointment.content.user.nickname} </User>
+                                    {appointment.content.cancelable && <h5 onClick={() => cancelAppointment(appointment.content.id)}><strong>X</strong></h5>}
+                                </div>
+                            )
+                        }
+                    })}
+                </Appointments>
+
+            </Body>
+        </Container>
     )
 }
