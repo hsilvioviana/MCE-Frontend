@@ -48,17 +48,6 @@ export const Body = styled.div`
     border-radius: 30px !important;
     margin-right: 30px !important;
   }
-
-  button {
-
-    margin: 60px 0px 25px 0px;
-  }
-`
-
-export const Controls = styled.div`
-
-position: absolute;
-
 `
 
 export const SwitchDayContainer = styled.div`

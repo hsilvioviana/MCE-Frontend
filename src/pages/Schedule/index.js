@@ -4,7 +4,9 @@ import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
 import { baseURL } from "../../parameters"
 import { goToHome } from "../../routes/coordinator"
-
+import { Body, Container, Week } from "./styles"
+import Button from "../../components/Button"
+import loadingGif from "../../assets/images/loading.gif"
 
 export const Schedule = () => {
 
@@ -150,33 +152,36 @@ export const Schedule = () => {
     }
 
     return (
-        <div>
-            <h1>Schedule</h1>
+        <Container>
 
             <button onClick={() => goToHome(history)}>Home</button>
 
-            <button onClick={setSchedule}>Editar Cronograma</button>
+            <Body>
 
-            {loading && <h3>Carregando...</h3>}
+            {loading && <img src={loadingGif}/>}
 
-            {!loading && checkBoxs.map(week => {
+                {!loading && checkBoxs.map(week => {
 
-                return (
-                    <div>
-                    <h1>{week[0].split("|")[0]}</h1>
-                    {week.map(hour => {
+                    return (
+                        <Week>
+                        <h1><strong>{week[0].split("|")[0]}</strong></h1>
+                        {week.map(hour => {
 
-                        return (
-                            <div>
-                                <label for={hour}>{`${hour.split("|")[1]}:00`}</label>
-                                <input type="checkbox" defaultChecked={alreadyChecked.includes(hour)} id={hour} onClick={() => alterSchedule(hour)} value="true"/>
-                            </div>
-                        )
-                    })}
-                    </div>
+                            return (
+                                <div>
+                                    <input type="checkbox" defaultChecked={alreadyChecked.includes(hour)} id={hour} onClick={() => alterSchedule(hour)} value="true"/>
+                                    <label for={hour}>{`${hour.split("|")[1]}h`}</label>
+                                </div>
+                            )
+                        })}
+                        </Week>
 
-                )
-            })}
-        </div>
+                    )
+                })}
+
+                <Button onClick={setSchedule}>Editar Cronograma</Button>
+
+            </Body>
+        </Container>
     )
 }
