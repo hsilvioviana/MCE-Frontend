@@ -5,6 +5,9 @@ import { baseURL } from "../../parameters"
 import { goToHome } from "../../routes/coordinator"
 import useProtectPage from "../../hooks/useProtectPage"
 import editPhoto from "../../assets/images/editPhoto.png"
+import { Body, Container, UserPhoto, EditPhoto } from "./styles"
+import Button from "../../components/Button"
+import Input from "../../components/Input"
 
 
 export const Profile = () => {
@@ -109,23 +112,26 @@ export const Profile = () => {
     }
     
     return (
-        <div>
-            <h1>Profile</h1>
-
-            <img style={{width: "100px"}} src={avatar}/>
-            <input id='imgupload' style={{display: "none"}} onChange={fileUpload} type="file" ref={x => fileInput = x}/>
-            <img style={{width: "30px"}} src={editPhoto} onClick={() => fileInput.click()}/>
-            
-            <div>
-                <input placeholder="Apelido" name="nickname" value={form.nickname} onChange={onChange}/>
-                <input placeholder="Email" name="email" value={form.email} onChange={onChange} type="email"/>
-                <input placeholder="Telefone" name="phone" value={form.phone} onChange={onChange} type="phone"/>
-                <input placeholder="Senha Antiga" name="password" value={form.password} onChange={onChange} type="password"/>
-                <input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange} type="password"/>
-                <button onClick={profile}>Salvar Alterações</button>
-            </div>
+        <Container>
 
             <button onClick={() => goToHome(history)}>Home</button>
-        </div>
+
+            <Body>
+
+            <div>
+                <UserPhoto src={avatar}/>
+                <input id='imgupload' style={{display: "none"}} onChange={fileUpload} type="file" ref={x => fileInput = x}/>
+                <EditPhoto style={{width: "30px"}} src={editPhoto} onClick={() => fileInput.click()}/>
+            </div>
+            
+                <Input><input placeholder="Apelido" name="nickname" value={form.nickname} onChange={onChange}/></Input>
+                <Input><input placeholder="Email" name="email" value={form.email} onChange={onChange} type="email"/></Input>
+                <Input><input placeholder="Telefone" name="phone" value={form.phone} onChange={onChange} type="phone"/></Input>
+                <Input><input placeholder="Senha Antiga" name="password" value={form.password} onChange={onChange} type="password"/></Input>
+                <Input><input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange} type="password"/></Input>
+                <Button onClick={profile}>Salvar Alterações</Button>
+
+            </Body>
+        </Container>
     )
 }
