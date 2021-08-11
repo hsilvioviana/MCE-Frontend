@@ -174,7 +174,7 @@ export const Schedule = () => {
 
             <Body>
 
-            {loading && <img src={loadingGif}/>}
+                {loading && <section></section>}
 
                 {!loading && checkBoxs.map(week => {
 
