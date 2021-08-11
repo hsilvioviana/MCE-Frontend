@@ -51,6 +51,11 @@ export const Body = styled.div`
 
     margin: 30px 0px 25px 0px;
   }
+
+  section {
+    
+    padding: 550px 0px;
+  }
 `
 
 export const Week = styled.div`

@@ -56,19 +56,22 @@ export const SwitchDayContainer = styled.div`
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   h3 {
 
     padding: 0px 20px;
+    width: 220px;
+    text-align: center;
   }
   
   img {
 
-    width: 18px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
 
     &:hover {
+
       cursor: pointer;
     }
   }
@@ -76,20 +79,23 @@ export const SwitchDayContainer = styled.div`
 
 export const Appointments = styled.div`
 
-  width: 80%;
-  display: block;
+  display: inline-flex;
+  flex-direction: column;
+  width: 90%;
+
 
   div {
 
     color: #626679;
-    padding: 10px 0px;
+    padding: 12px 0px;
+
+    display: flex;
+    align-items: center;
 
     section {
 
       display: inline-block;
       width: 35px;
-
-      
     }
     p {
 
@@ -101,20 +107,18 @@ export const Appointments = styled.div`
       display: inline;
       padding: 0px 10px;
     }
-
     h5 {
 
       display: inline;
       background-color: red;
       color: ${white};
-    
-      padding: 10px 12px;
-      margin: 0px 10px;
-    
-      border-radius: 10px;
 
+      padding: 12px 3px;
+  
+      border-radius: 0px 10px 10px 0px;
+  
       &:hover {
-
+  
         cursor: pointer;
         background-color: #b20000;
       }
@@ -122,15 +126,41 @@ export const Appointments = styled.div`
   }
 `
 
-export const User = styled.h4`
+export const User = styled.div`
 
-  display: inline;
   background-color: ${orange};
-  color: ${white};
+  padding: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  
+  border-radius: 10px 0px 0px 10px;
 
-  padding: 10px 14px;
+  div {
 
-  border-radius: 10px;
+    display: inline-flex;
+    flex-direction: column;
+
+    h4 {
+  
+      display: inline;
+      color: ${white};
+      padding:0px 5px 0px 0px;
+    }
+    h3 {
+      
+      display: inline;
+      color: ${white};  
+    }
+  }
+  img {
+
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    margin: 0px 10px 0px 5px;
+  }
 `
 
 export const Controls = styled.div`

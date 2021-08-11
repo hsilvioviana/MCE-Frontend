@@ -24,7 +24,6 @@ export const Home = () => {
 
     const [day, setDay] = useState(new Date())
     const [appointments, setAppointments] = useState([])
-    const [loading, setLoading] = useState(true)
     const [avatar, setAvatar] = useState(window.localStorage.getItem("avatar"))
 
     useEffect( async () => {
@@ -37,8 +36,6 @@ export const Home = () => {
         try {
 
             if (token) {
-
-                setLoading(true)
 
                 const headers = { headers: { Authorization: token } }
 
@@ -67,8 +64,6 @@ export const Home = () => {
                 }
 
                 setAppointments(newAppointments)
-
-                setLoading(false)
             }
         }
         catch (error) {
@@ -123,10 +118,8 @@ export const Home = () => {
                     <img onClick={() => setDay(subDays(day, -1))} src={rightArrow}/>
                 </SwitchDayContainer>
 
-                {loading && <img src={loadingGif}/>}
-
                 <Appointments>
-                    {!loading && appointments.map(appointment => {
+                    {appointments.map(appointment => {
 
                         if (!appointment.content) {
 
@@ -149,7 +142,13 @@ export const Home = () => {
                                     <p>{appointment.hour}</p>
                                     </section>
                                     <h3>O</h3>
-                                    <User>{appointment.content.user.nickname} </User>
+                                    <User>
+                                        <img src={appointment.content.user.avatar}/>
+                                        <div>
+                                            <h3><strong>{appointment.content.user.nickname}</strong></h3>
+                                            <h4>{appointment.content.user.phone}</h4>
+                                        </div>
+                                    </User>
                                     {appointment.content.cancelable && <h5 onClick={() => cancelAppointment(appointment.content.id)}><strong>X</strong></h5>}
                                 </div>
                             )
