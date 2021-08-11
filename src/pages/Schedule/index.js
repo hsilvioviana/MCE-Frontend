@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
 import { baseURL } from "../../parameters"
-import { goToHome } from "../../routes/coordinator"
-import { Body, Container, Week } from "./styles"
+import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { Body, Container, Week, Controls } from "./styles"
 import Button from "../../components/Button"
 import loadingGif from "../../assets/images/loading.gif"
+import noPhoto from "../../assets/images/noPhoto.png"
+
 
 export const Schedule = () => {
 
@@ -15,6 +17,7 @@ export const Schedule = () => {
     const history = useHistory()
 
     const token = window.localStorage.getItem("token")
+    const nickname = window.localStorage.getItem("nickname")
 
     const scheduleForm = { sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: [], saturday: [] }
 
@@ -22,6 +25,7 @@ export const Schedule = () => {
     const [checkBoxs, setCheckBoxs] = useState([])
     const [alreadyChecked, setAlreadyChecked] = useState([])
     const [loading, setLoading] = useState(true)
+    const [avatar, setAvatar] = useState(window.localStorage.getItem("avatar"))
 
     const weeks = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
 
@@ -151,10 +155,22 @@ export const Schedule = () => {
         }
     }
 
+    const setNoPhoto = () => {
+
+        setAvatar(noPhoto)
+    }
+
     return (
         <Container>
 
-            <button onClick={() => goToHome(history)}>Home</button>
+            <Controls>
+                <img src={avatar} onError={setNoPhoto}/>
+                <h3><strong>{nickname}</strong></h3>
+                <p onClick={() => goToHome(history)}>Agendamentos</p>
+                <p onClick={() => goToProfile(history)}>Meu Perfil</p>
+                <p onClick={() => goToSchedule(history)}>Horários</p>
+                <p onClick={() => goToLogout(history)}>Logout</p>
+            </Controls>
 
             <Body>
 

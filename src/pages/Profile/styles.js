@@ -2,7 +2,7 @@ import styled from "styled-components"
 import fonts from "../../styles/fonts"
 
 
-const { DMSans700 } = fonts
+const { DMSans700, Poppins400 } = fonts
 
 export const Container = styled.div`
 
@@ -73,4 +73,30 @@ export const EditPhoto = styled.img`
         
         cursor: pointer;
     }
+`
+
+export const Controls = styled.div`
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 30px;
+  ${Poppins400}
+
+  p {
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  img {
+
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    position: absolute;
+    right: 140px;
+    top: 3px;
+  }
 `
