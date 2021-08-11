@@ -69,6 +69,12 @@ export const EditPhoto = styled.img`
 
     backgroundColor: #ccc;
 
+    border: 2px solid white;
+    background-color: white;
+    border-radius: 100px;
+    position: sticky;
+    right: 80px;
+
     &:hover {
         
         cursor: pointer;
