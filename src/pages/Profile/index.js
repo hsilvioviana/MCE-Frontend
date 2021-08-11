@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
 import { baseURL } from "../../parameters"
-import { goToHome } from "../../routes/coordinator"
+import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import useProtectPage from "../../hooks/useProtectPage"
 import editPhoto from "../../assets/images/editPhoto.png"
-import { Body, Container, UserPhoto, EditPhoto } from "./styles"
+import { Body, Container, UserPhoto, EditPhoto, Controls } from "./styles"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
+import noPhoto from "../../assets/images/noPhoto.png"
 
 
 export const Profile = () => {
@@ -17,11 +18,12 @@ export const Profile = () => {
     const history = useHistory()
 
     const token = window.localStorage.getItem("token")
+    const nickname = window.localStorage.getItem("nickname")
 
     const profileForm = { nickname: "", email: "", phone: "", password: "", newPassword: ""}
 
     const [form, setForm] = useState(profileForm)
-    const [avatar, setAvatar] = useState("")
+    const [avatar, setAvatar] = useState(window.localStorage.getItem("avatar"))
     let [fileInput] = useState()
 
     const onChange = (event) => {
@@ -55,6 +57,7 @@ export const Profile = () => {
             window.localStorage.setItem("id", response.data.user.id)
             window.localStorage.setItem("nickname", response.data.user.nickname)
             window.localStorage.setItem("email", response.data.user.email)
+            window.localStorage.setItem("avatar", response.data.user.avatar)
 
             window.alert("Perfil editado com sucesso")
         }
@@ -84,6 +87,7 @@ export const Profile = () => {
             })
 
             setAvatar(response.data.profile.avatar)
+            window.localStorage.setItem("avatar", response.data.profile.avatar)
         }
         catch (error) {
 
@@ -102,6 +106,8 @@ export const Profile = () => {
             const headers = { headers: { Authorization: token } }
 
             await axios.put(`${baseURL}/files/photo/upload`, file, headers)
+
+            await getProfileDetails()
         }
         catch (error) {
 
@@ -110,16 +116,28 @@ export const Profile = () => {
 
         await getProfileDetails()
     }
+
+    const setNoPhoto = () => {
+
+        setAvatar(noPhoto)
+    }
     
     return (
         <Container>
 
-            <button onClick={() => goToHome(history)}>Home</button>
+            <Controls>
+                <img src={avatar} onError={setNoPhoto}/>
+                <h3><strong>{nickname}</strong></h3>
+                <p onClick={() => goToHome(history)}>Agendamentos</p>
+                <p onClick={() => goToProfile(history)}>Meu Perfil</p>
+                <p onClick={() => goToSchedule(history)}>Horários</p>
+                <p onClick={() => goToLogout(history)}>Logout</p>
+            </Controls>
 
             <Body>
 
             <div>
-                <UserPhoto src={avatar}/>
+                <UserPhoto src={avatar} onError={setNoPhoto}/>
                 <input id='imgupload' style={{display: "none"}} onChange={fileUpload} type="file" ref={x => fileInput = x}/>
                 <EditPhoto style={{width: "30px"}} src={editPhoto} onClick={() => fileInput.click()}/>
             </div>

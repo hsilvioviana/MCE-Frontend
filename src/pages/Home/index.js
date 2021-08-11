@@ -2,14 +2,15 @@ import { format, subDays } from "date-fns"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
-import { goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { pt } from "date-fns/locale"
 import axios from "axios"
 import { baseURL } from "../../parameters"
-import { Appointments, Body, Container, SwitchDayContainer, User } from "./styles"
+import { Appointments, Body, Container, SwitchDayContainer, User, Controls } from "./styles"
 import leftArrow from "../../assets/images/leftArrow.png"
 import rightArrow from "../../assets/images/rightArrow.png"
 import loadingGif from "../../assets/images/loading.gif"
+import noPhoto from "../../assets/images/noPhoto.png"
 
 
 export const Home = () => {
@@ -19,10 +20,12 @@ export const Home = () => {
     const history = useHistory()
 
     const token = window.localStorage.getItem("token")
+    const nickname = window.localStorage.getItem("nickname")
 
     const [day, setDay] = useState(new Date())
     const [appointments, setAppointments] = useState([])
     const [loading, setLoading] = useState(true)
+    const [avatar, setAvatar] = useState(window.localStorage.getItem("avatar"))
 
     useEffect( async () => {
 
@@ -95,12 +98,22 @@ export const Home = () => {
         }
     }
 
+    const setNoPhoto = () => {
+
+        setAvatar(noPhoto)
+    }
+
     return (
         <Container>
 
-            <button onClick={() => goToLogout(history)}>Logout</button>
-            <button onClick={() => goToProfile(history)}>Perfil</button>
-            <button onClick={() => goToSchedule(history)}>Cronograma</button>
+            <Controls>
+                <img src={avatar} onError={setNoPhoto}/>
+                <h3><strong>{nickname}</strong></h3>
+                <p onClick={() => goToHome(history)}>Agendamentos</p>
+                <p onClick={() => goToProfile(history)}>Meu Perfil</p>
+                <p onClick={() => goToSchedule(history)}>Horários</p>
+                <p onClick={() => goToLogout(history)}>Logout</p>
+            </Controls>
 
             <Body>
 

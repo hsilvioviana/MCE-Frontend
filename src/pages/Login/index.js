@@ -42,6 +42,7 @@ export const Login = () => {
                 window.localStorage.setItem("id", response.data.user.id)
                 window.localStorage.setItem("nickname", response.data.user.nickname)
                 window.localStorage.setItem("email", response.data.user.email)
+                window.localStorage.setItem("avatar", response.data.user.avatar)
     
                 goToHome(history)
             }
