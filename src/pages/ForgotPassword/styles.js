@@ -53,7 +53,17 @@ export const Body = styled.div`
 
   button {
 
-    margin: 18px 0px 15px 0px;
+    margin: 40px 0px 15px 0px;
+  }
+
+  h2 {
+    margin: 45px 0px 20px;
+  }
+
+  p {
+
+    color: #868686;
+    margin: 0px 0px 30px;
   }
 `
 

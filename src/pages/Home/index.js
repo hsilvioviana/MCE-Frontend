@@ -9,7 +9,6 @@ import { baseURL } from "../../parameters"
 import { Appointments, Body, Container, SwitchDayContainer, User, Controls } from "./styles"
 import leftArrow from "../../assets/images/leftArrow.png"
 import rightArrow from "../../assets/images/rightArrow.png"
-import loadingGif from "../../assets/images/loading.gif"
 import noPhoto from "../../assets/images/noPhoto.png"
 
 
