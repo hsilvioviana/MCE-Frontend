@@ -27,7 +27,7 @@ export const Body = styled.div`
   align-items: center;
   height: 470px;
   width: 320px;
-  padding: 0px 40px;
+  padding: 0px 37px;
   background: white;
   border-radius: 10px;
   ${DMSans700}
@@ -55,7 +55,7 @@ export const Body = styled.div`
 
     padding: 20px 0px;
 
-    margin: 18px 0px 15px 0px;
+    margin: 28px 0px 25px 0px;
   }
 
   strong {

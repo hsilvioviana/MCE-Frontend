@@ -7,9 +7,6 @@ import useUnprotectPage from "../../hooks/useUnprotectPage"
 import { Body, Container, Coordinator} from "./styles"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
-import { Image } from "../../components/Image/styles"
-import logo from "../../assets/images/logo.png"
-
 
 
 export const Signup = () => {
@@ -59,9 +56,6 @@ export const Signup = () => {
         <Container>
             <Body>
 
-
-            <Image src={logo}/>
-
             <Input><input placeholder="Apelido" name="nickname" value={form.nickname} onChange={onChange}/></Input>
             <Input><input placeholder="Email" name="email" value={form.email} onChange={onChange} type="email"/></Input>
             <Input><input placeholder="Telefone" name="phone" value={form.phone} onChange={onChange} type="phone"/></Input>
@@ -69,7 +63,7 @@ export const Signup = () => {
             <Input><input placeholder="Confirmar Senha" name="confirmPassword" value={form.confirmPassword} onChange={onChange} type="password"/></Input>
             <Button onClick={signup}>Cadastrar</Button>
 
-            <strong onClick={() => goToLogin(history)}><Coordinator>Voltar para Login</Coordinator></strong>
+            <p>Já tem conta? <strong onClick={() => goToLogin(history)}><Coordinator>Login</Coordinator></strong></p>
             
             </Body>
         </Container>

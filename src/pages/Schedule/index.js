@@ -6,7 +6,6 @@ import { baseURL } from "../../parameters"
 import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { Body, Container, Week, Controls } from "./styles"
 import Button from "../../components/Button"
-import loadingGif from "../../assets/images/loading.gif"
 import noPhoto from "../../assets/images/noPhoto.png"
 
 

@@ -5,8 +5,6 @@ import useUnprotectPage from "../../hooks/useUnprotectPage"
 import { baseURL } from "../../parameters"
 import { goToHome, goToLogin, goToForgotPassword } from "../../routes/coordinator"
 import { Body, Container, Coordinator } from "./styles"
-import { Image } from "../../components/Image/styles"
-import logo from "../../assets/images/logo.png"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import jwt_decode from "jwt-decode"
@@ -17,8 +15,6 @@ export const ResetPassword = () => {
     useUnprotectPage()
 
     const email = localStorage.getItem("resetPasswordEmail")
-
-    if (!email) { goToForgotPassword(history) }
 
     const history = useHistory()
 
@@ -69,17 +65,18 @@ export const ResetPassword = () => {
         <Container>
             <Body>
 
-            <Image src={logo}/>
+                <h2><strong>Criar nova senha</strong></h2>
 
-            <h2>Digite o código enviado à {email} e sua nova senha</h2>
+                <p>Digite o código enviado à {email} e sua nova senha</p>
 
-            <Input><input placeholder="Código" name="code" value={form.code} onChange={onChange}/></Input>
-            <Input><input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange} type="password"/></Input>
+                <Input><input placeholder="Código" name="code" value={form.code} onChange={onChange}/></Input>
+                <Input><input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange} type="password"/></Input>
 
-            <Button onClick={resetPassword}>Redefinir Senha</Button>
+                <Button onClick={resetPassword}>Redefinir Senha</Button>
 
-            <strong onClick={() => goToLogin(history)}><Coordinator>Voltar para Login</Coordinator></strong>
+                <strong onClick={() => goToLogin(history)}><Coordinator>Voltar para Login</Coordinator></strong>
 
+                {!email && goToForgotPassword(history)}
             </Body>
         </Container>
     )
