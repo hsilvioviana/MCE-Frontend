@@ -172,6 +172,33 @@ export const Controls = styled.div`
   margin: 30px;
   ${Poppins400}
 
+  h2 {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    right: 182px;
+    top: -10px;
+
+    padding: 5px;
+    background-color: #EF3F5F;
+    color: white;
+    border-radius: 100px;
+
+    font-size: 16px;
+
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+
+      cursor: pointer;
+      background-color: #b20000;
+    }
+  }
+
   p {
 
     &:hover {
@@ -183,9 +210,46 @@ export const Controls = styled.div`
 
     width: 50px;
     height: 50px;
-    border-radius: 10px;
+    border-radius: 10px 10px 10px 10px;
     position: absolute;
     right: 140px;
     top: 3px;
+  }
+`
+
+export const Notifications = styled.div`
+
+  position: absolute;
+  top: 70px;
+  right: 200px;
+  ${Poppins400}
+  padding: 5px;
+
+  background-color: white;
+  border-radius: 10px;
+
+  div:nth-child(odd) {
+
+    background-color: #EFF1F9;
+  }
+
+  div {
+
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+
+    p {
+
+      width: 250px;
+      font-size: 14px;
+
+      &:hover {
+
+        cursor: pointer;
+
+      }
+    }
+
   }
 `

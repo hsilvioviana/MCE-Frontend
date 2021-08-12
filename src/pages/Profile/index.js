@@ -5,7 +5,7 @@ import { baseURL } from "../../parameters"
 import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import useProtectPage from "../../hooks/useProtectPage"
 import editPhoto from "../../assets/images/editPhoto.png"
-import { Body, Container, UserPhoto, EditPhoto, Controls } from "./styles"
+import { Body, Container, UserPhoto, EditPhoto, Controls, Notifications } from "./styles"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import noPhoto from "../../assets/images/noPhoto.png"
@@ -24,6 +24,8 @@ export const Profile = () => {
 
     const [form, setForm] = useState(profileForm)
     const [avatar, setAvatar] = useState(window.localStorage.getItem("avatar"))
+    const [notifications, setNotifications] = useState([])
+    const [showNotification, setShowNotification] = useState(false)
     let [fileInput] = useState()
 
     const onChange = (event) => {
@@ -35,6 +37,7 @@ export const Profile = () => {
     useEffect( async () => {
 
         await getProfileDetails()
+        await getNotifications()
     }, [])
 
     const profile = async () => {
@@ -117,6 +120,38 @@ export const Profile = () => {
         await getProfileDetails()
     }
 
+    const getNotifications = async () => {
+
+        try {
+
+            const headers = { headers: { Authorization: token } }
+
+            const response = await axios.get(`${baseURL}/notifications`, headers)
+
+            setNotifications(response.data.notifications)
+        }
+        catch (error) {
+            
+            window.alert(error.response.data.error)
+        }
+    }
+
+    const readNotification = async (id) => {
+
+        try {
+
+            const headers = { headers: { Authorization: token } }
+
+            await axios.post(`${baseURL}/notifications/read/${id}`, "", headers)
+
+            await getNotifications()
+        }
+        catch (error) {
+            
+            window.alert(error.response.data.error)
+        }
+    }
+
     const setNoPhoto = () => {
 
         setAvatar(noPhoto)
@@ -126,6 +161,7 @@ export const Profile = () => {
         <Container>
 
             <Controls>
+                <h2 onClick={() => setShowNotification(!showNotification)}>{notifications.length}</h2>
                 <img src={avatar} onError={setNoPhoto}/>
                 <h3><strong>{nickname}</strong></h3>
                 <p onClick={() => goToHome(history)}>Agendamentos</p>
@@ -133,6 +169,20 @@ export const Profile = () => {
                 <p onClick={() => goToSchedule(history)}>Horários</p>
                 <p onClick={() => goToLogout(history)}>Logout</p>
             </Controls>
+
+            {showNotification && notifications.length > 0 && <Notifications>
+                {notifications.map((notification, index)=> {
+
+                    if (index < 5) {
+                        return (
+                            <div>
+
+                                <p onClick={() => readNotification(notification.id)}>{notification.content}</p>
+                            </div>
+                        )
+                    }
+                })}
+            </Notifications>}
 
             <Body>
 

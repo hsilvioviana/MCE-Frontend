@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
 import { baseURL } from "../../parameters"
 import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
-import { Body, Container, Week, Controls } from "./styles"
+import { Body, Container, Week, Controls, Notifications } from "./styles"
 import Button from "../../components/Button"
 import noPhoto from "../../assets/images/noPhoto.png"
 
@@ -25,6 +25,8 @@ export const Schedule = () => {
     const [alreadyChecked, setAlreadyChecked] = useState([])
     const [loading, setLoading] = useState(true)
     const [avatar, setAvatar] = useState(window.localStorage.getItem("avatar"))
+    const [notifications, setNotifications] = useState([])
+    const [showNotification, setShowNotification] = useState(false)
 
     const weeks = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
 
@@ -32,6 +34,7 @@ export const Schedule = () => {
 
         configureCheckBoxs()
         await getActualSchedule()
+        await getNotifications()
     }, [])
 
     const configureCheckBoxs = () => {
@@ -154,6 +157,39 @@ export const Schedule = () => {
         }
     }
 
+    const getNotifications = async () => {
+
+        try {
+
+            const headers = { headers: { Authorization: token } }
+
+            const response = await axios.get(`${baseURL}/notifications`, headers)
+
+            setNotifications(response.data.notifications)
+        }
+        catch (error) {
+            
+            window.alert(error.response.data.error)
+        }
+    }
+
+    const readNotification = async (id) => {
+
+        try {
+
+            const headers = { headers: { Authorization: token } }
+
+            await axios.post(`${baseURL}/notifications/read/${id}`, "", headers)
+
+            await getNotifications()
+        }
+        catch (error) {
+            
+            window.alert(error.response.data.error)
+        }
+    }
+
+
     const setNoPhoto = () => {
 
         setAvatar(noPhoto)
@@ -163,6 +199,7 @@ export const Schedule = () => {
         <Container>
 
             <Controls>
+                <h2 onClick={() => setShowNotification(!showNotification)}>{notifications.length}</h2>
                 <img src={avatar} onError={setNoPhoto}/>
                 <h3><strong>{nickname}</strong></h3>
                 <p onClick={() => goToHome(history)}>Agendamentos</p>
@@ -170,6 +207,20 @@ export const Schedule = () => {
                 <p onClick={() => goToSchedule(history)}>Horários</p>
                 <p onClick={() => goToLogout(history)}>Logout</p>
             </Controls>
+
+            {showNotification && notifications.length > 0 && <Notifications>
+                {notifications.map((notification, index)=> {
+
+                    if (index < 5) {
+                        return (
+                            <div>
+
+                                <p onClick={() => readNotification(notification.id)}>{notification.content}</p>
+                            </div>
+                        )
+                    }
+                })}
+            </Notifications>}
 
             <Body>
 
