@@ -147,8 +147,8 @@ export const Home = () => {
                                             <h3><strong>{appointment.content.user.nickname}</strong></h3>
                                             <h4>{appointment.content.user.phone}</h4>
                                         </div>
+                                        {appointment.content.cancelable && <h5 onClick={() => cancelAppointment(appointment.content.id)}><strong>X</strong></h5>}
                                     </User>
-                                    {appointment.content.cancelable && <h5 onClick={() => cancelAppointment(appointment.content.id)}><strong>X</strong></h5>}
                                 </div>
                             )
                         }
