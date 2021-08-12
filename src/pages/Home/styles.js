@@ -107,35 +107,19 @@ export const Appointments = styled.div`
       display: inline;
       padding: 0px 10px;
     }
-    h5 {
-
-      display: inline;
-      background-color: red;
-      color: ${white};
-
-      padding: 12px 3px;
-  
-      border-radius: 0px 10px 10px 0px;
-  
-      &:hover {
-  
-        cursor: pointer;
-        background-color: #b20000;
-      }
-    }
   }
 `
 
 export const User = styled.div`
 
   background-color: ${orange};
-  padding: 50px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 40px;
+  width: 200px;
   
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 10px 10px;
 
   div {
 
@@ -156,10 +140,27 @@ export const User = styled.div`
   }
   img {
 
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    margin: 0px 10px 0px 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px 0px 0px 10px;
+    margin: 0px 10px 0px 0px;
+    position: sticky;
+  }
+  h5 {
+
+    display: inline;
+    background-color: red;
+    color: ${white};
+
+    padding: 12px 3px;
+
+    border-radius: 0px 10px 10px 0px;
+
+    &:hover {
+
+      cursor: pointer;
+      background-color: #b20000;
+    }
   }
 `
 
