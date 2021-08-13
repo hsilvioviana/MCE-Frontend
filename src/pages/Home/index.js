@@ -2,7 +2,7 @@ import { format, subDays } from "date-fns"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
-import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { goToDayOff, goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { pt } from "date-fns/locale"
 import axios from "axios"
 import { baseURL } from "../../parameters"
@@ -142,6 +142,7 @@ export const Home = () => {
                 <p onClick={() => goToHome(history)}>Agendamentos</p>
                 <p onClick={() => goToProfile(history)}>Meu Perfil</p>
                 <p onClick={() => goToSchedule(history)}>Horários</p>
+                <p onClick={() => goToDayOff(history)}>Folgas</p>
                 <p onClick={() => goToLogout(history)}>Logout</p>
             </Controls>
 

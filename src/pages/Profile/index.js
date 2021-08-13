@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
 import { baseURL } from "../../parameters"
-import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { goToDayOff, goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import useProtectPage from "../../hooks/useProtectPage"
 import editPhoto from "../../assets/images/editPhoto.png"
 import { Body, Container, UserPhoto, EditPhoto, Controls, Notifications } from "./styles"
@@ -167,6 +167,7 @@ export const Profile = () => {
                 <p onClick={() => goToHome(history)}>Agendamentos</p>
                 <p onClick={() => goToProfile(history)}>Meu Perfil</p>
                 <p onClick={() => goToSchedule(history)}>Horários</p>
+                <p onClick={() => goToDayOff(history)}>Folgas</p>
                 <p onClick={() => goToLogout(history)}>Logout</p>
             </Controls>
 

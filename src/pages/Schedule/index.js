@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import useProtectPage from "../../hooks/useProtectPage"
 import { baseURL } from "../../parameters"
-import { goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
+import { goToDayOff, goToHome, goToLogout, goToProfile, goToSchedule } from "../../routes/coordinator"
 import { Body, Container, Week, Controls, Notifications } from "./styles"
 import Button from "../../components/Button"
 import noPhoto from "../../assets/images/noPhoto.png"
@@ -205,6 +205,7 @@ export const Schedule = () => {
                 <p onClick={() => goToHome(history)}>Agendamentos</p>
                 <p onClick={() => goToProfile(history)}>Meu Perfil</p>
                 <p onClick={() => goToSchedule(history)}>Horários</p>
+                <p onClick={() => goToDayOff(history)}>Folgas</p>
                 <p onClick={() => goToLogout(history)}>Logout</p>
             </Controls>
 
