@@ -7,6 +7,7 @@ import { ResetPassword } from "./pages/ResetPassword"
 import { Home } from "./pages/Home"
 import { Profile } from "./pages/Profile"
 import { Schedule } from "./pages/Schedule"
+import { DayOff } from "./pages/DayOff"
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
 
         <Route exact path="/schedule">
           <Schedule/>
+        </Route>
+
+        <Route exact path="/dayoff">
+          <DayOff/>
         </Route>
 
         <Route>

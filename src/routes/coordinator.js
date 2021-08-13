@@ -33,6 +33,11 @@ export const goToSchedule = (history) => {
     history.push("/schedule")
 }
 
+export const goToDayOff = (history) => {
+
+    history.push("/dayoff")
+}
+
 export const goToLogout = (history) => {
 
     localStorage.clear()
