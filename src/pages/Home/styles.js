@@ -115,7 +115,7 @@ export const User = styled.div`
   background-color: ${orange};
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   height: 40px;
   width: 200px;
   

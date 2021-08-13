@@ -99,11 +99,14 @@ export const Home = () => {
 
         try {
 
-            const headers = { headers: { Authorization: token } }
+            if (token) {
 
-            const response = await axios.get(`${baseURL}/notifications`, headers)
+                const headers = { headers: { Authorization: token } }
 
-            setNotifications(response.data.notifications)
+                const response = await axios.get(`${baseURL}/notifications`, headers)
+
+                setNotifications(response.data.notifications)
+            }
         }
         catch (error) {
             
