@@ -161,8 +161,8 @@ export const Profile = () => {
         <Container>
 
             <Controls>
-                <h2 onClick={() => setShowNotification(!showNotification)}>{notifications.length}</h2>
                 <img src={avatar} onError={setNoPhoto}/>
+                <h2 onClick={() => setShowNotification(!showNotification)}>{notifications.length}</h2>
                 <h3><strong>{nickname}</strong></h3>
                 <p onClick={() => goToHome(history)}>Agendamentos</p>
                 <p onClick={() => goToProfile(history)}>Meu Perfil</p>

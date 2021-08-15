@@ -96,8 +96,8 @@ export const Controls = styled.div`
     align-items: center;
 
     position: absolute;
-    right: 182px;
-    top: -10px;
+    right: 176px;
+    top: -9px;
 
     padding: 5px;
     background-color: #EF3F5F;
