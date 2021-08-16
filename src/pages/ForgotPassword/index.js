@@ -7,6 +7,7 @@ import { baseURL } from "../../parameters"
 import { Body, Container, Coordinator } from "./styles"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
+import { passwordForgotSchema } from "../../validations/passwordForgotSchema"
 
 
 export const ForgotPassword = () => {
@@ -29,6 +30,8 @@ export const ForgotPassword = () => {
 
         try {
 
+            await passwordForgotSchema.validate(form)
+
             await axios.post(`${baseURL}/users/password/forgot`, form)
 
             window.localStorage.setItem("resetPasswordEmail", form.email)
@@ -37,7 +40,14 @@ export const ForgotPassword = () => {
         }
         catch (error) {
 
-            window.alert(error.response.data.error)
+            if (error.response) {
+
+                window.alert(error.response.data.error)
+            }
+            else {
+
+                window.alert(error.message)
+            }
         }
     }
 
