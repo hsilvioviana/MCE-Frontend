@@ -9,6 +9,8 @@ import { Body, Container, UserPhoto, EditPhoto, Controls, Notifications } from "
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import noPhoto from "../../assets/images/noPhoto.png"
+import { signupSchema } from "../../validations/signupSchema"
+import { profileEditSchema } from "../../validations/profileEditSchema"
 
 
 export const Profile = () => {
@@ -48,11 +50,18 @@ export const Profile = () => {
 
             const headers = { headers: { Authorization: token } }
 
-            if (!form.password) {
+            if (body.newPassword && !body.password) {
+
+                throw new Error("Para mudar a senha é necessário fornecer a senha atual")
+            }
+
+            if (!body.password) {
 
                 delete body.password
                 delete body.newPassword
             }
+
+            await profileEditSchema.validate(body)
 
             const response = await axios.put(`${baseURL}/users/profile/edit`, body, headers)
 
@@ -66,7 +75,14 @@ export const Profile = () => {
         }
         catch (error) {
 
-            window.alert(error.response.data.error)
+            if (error.response) {
+
+                window.alert(error.response.data.error)
+            }
+            else {
+
+                window.alert(error.message)
+            }
         }
 
         setForm({...form,
@@ -196,7 +212,7 @@ export const Profile = () => {
                 <Input><input placeholder="Apelido" name="nickname" value={form.nickname} onChange={onChange}/></Input>
                 <Input><input placeholder="Email" name="email" value={form.email} onChange={onChange} type="email"/></Input>
                 <Input><input placeholder="Telefone" name="phone" value={form.phone} onChange={onChange} type="phone"/></Input>
-                <Input><input placeholder="Senha Antiga" name="password" value={form.password} onChange={onChange} type="password"/></Input>
+                <Input><input placeholder="Senha Atual" name="password" value={form.password} onChange={onChange} type="password"/></Input>
                 <Input><input placeholder="Nova Senha" name="newPassword" value={form.newPassword} onChange={onChange} type="password"/></Input>
                 <Button onClick={profile}>Salvar Alterações</Button>
 

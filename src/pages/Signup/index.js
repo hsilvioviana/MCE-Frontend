@@ -7,6 +7,7 @@ import useUnprotectPage from "../../hooks/useUnprotectPage"
 import { Body, Container, Coordinator} from "./styles"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
+import { signupSchema } from "../../validations/signupSchema"
 
 
 export const Signup = () => {
@@ -31,6 +32,8 @@ export const Signup = () => {
 
             if (form.password === form.confirmPassword) {
 
+                await signupSchema.validate(form)
+
                 const response = await axios.post(`${baseURL}/users/signup`, form)
 
                 window.localStorage.setItem("token", response.data.token)
@@ -48,7 +51,14 @@ export const Signup = () => {
         }
         catch (error) {
 
-            window.alert(error.response.data.error)
+            if (error.response) {
+
+                window.alert(error.response.data.error)
+            }
+            else {
+
+                window.alert(error.message)
+            }
         }
     }
 

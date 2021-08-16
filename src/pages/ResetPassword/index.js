@@ -8,6 +8,7 @@ import { Body, Container, Coordinator } from "./styles"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import jwt_decode from "jwt-decode"
+import { passwordResetSchema } from "../../validations/passwordResetSchema"
 
 
 export const ResetPassword = () => {
@@ -32,6 +33,8 @@ export const ResetPassword = () => {
 
         try {
 
+            await passwordResetSchema.validate(form)
+            
             const response = await axios.post(`${baseURL}/users/password/reset`, form)
 
             const role = jwt_decode(response.data.token).role
@@ -57,7 +60,14 @@ export const ResetPassword = () => {
         }
         catch (error) {
 
-            window.alert(error.response.data.error)
+            if (error.response) {
+
+                window.alert(error.response.data.error)
+            }
+            else {
+
+                window.alert(error.message)
+            }
         }
     }
 

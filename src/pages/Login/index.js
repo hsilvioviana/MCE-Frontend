@@ -10,6 +10,7 @@ import Button from "../../components/Button"
 import Input from "../../components/Input"
 import { Image } from "../../components/Image/styles"
 import logo from "../../assets/images/logo.png"
+import { loginSchema } from "../../validations/loginSchema"
 
 
 export const Login = () => {
@@ -32,6 +33,8 @@ export const Login = () => {
 
         try {
 
+            await loginSchema.validate(form)
+
             const response = await axios.post(`${baseURL}/users/login`, form)
 
             const role = jwt_decode(response.data.token).role
@@ -53,7 +56,14 @@ export const Login = () => {
         }
         catch (error) {
 
-            window.alert(error.response.data.error)
+            if (error.response) {
+
+                window.alert(error.response.data.error)
+            }
+            else {
+
+                window.alert(error.message)
+            }
         }
     }
 
